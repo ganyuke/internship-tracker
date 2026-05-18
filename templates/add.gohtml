@@ -1,0 +1,85 @@
+{{define "add"}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Application · Internship Tracker</title>
+  <link rel="icon" href="/static/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body class="soft-bg">
+  <main class="page narrow">
+    <form method="post" action="/add" class="form-card stack-md" data-autofill-form>
+      <div class="form-heading">
+        <h1>New Application</h1>
+        <p>Add a job listing to track or ignore later.</p>
+      </div>
+
+      <div class="grid two">
+        <label>
+          <span>Job Posting Link</span>
+          <input id="link" name="link" type="url" placeholder="https://...">
+        </label>
+        <label>
+          <span>Company Name *</span>
+          <input id="company" name="company" required placeholder="e.g. Acme Corp">
+        </label>
+      </div>
+
+      <div class="grid two">
+        <label>
+          <span>Job Role *</span>
+          <input id="role" name="role" required placeholder="e.g. Frontend Intern">
+        </label>
+        <label>
+          <span>Location</span>
+          <input name="location" placeholder="e.g. Remote / New York">
+        </label>
+      </div>
+
+      <fieldset class="panel-grid">
+        <label>
+          <span>Min Pay ($/hr)</span>
+          <input type="number" step="0.01" name="payMin" placeholder="0.00">
+        </label>
+        <label>
+          <span>Max Pay ($/hr)</span>
+          <input type="number" step="0.01" name="payMax" placeholder="0.00">
+        </label>
+      </fieldset>
+
+      <div class="grid two">
+        <label>
+          <span>Application Opens</span>
+          <input type="date" name="appOpenDate">
+        </label>
+        <label>
+          <span>Application Closes</span>
+          <input type="date" name="appCloseDate">
+        </label>
+        <label>
+          <span>Start Date</span>
+          <input type="date" name="internStartDate">
+        </label>
+        <label>
+          <span>End Date</span>
+          <input type="date" name="internEndDate">
+        </label>
+      </div>
+
+      <label>
+        <span>Notes / Why am I procrastinating?</span>
+        <textarea name="notes" rows="3" placeholder="e.g. Need to update my resume first..."></textarea>
+      </label>
+
+      <div class="actions split">
+        <a class="button secondary" href="/">Cancel</a>
+        <button class="button dark" type="submit">Add Application</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>
+{{end}}

@@ -1,0 +1,76 @@
+{{define "index"}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Internship Tracker</title>
+  <link rel="icon" href="/static/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <main class="page wide stack-lg">
+    <header class="topbar">
+      <h1>Internship Tracker</h1>
+      <a class="button primary" href="/add">Add Application</a>
+    </header>
+
+    <section class="stats-grid" aria-label="Application stats">
+      <article class="stat-card">
+        <p class="stat-label">total</p>
+        <p class="stat-value">{{.Stats.Total}}</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">rejected</p>
+        <p class="stat-value">{{.Stats.Rejected}}</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">offers</p>
+        <p class="stat-value">{{.Stats.Offers}}</p>
+      </article>
+      <article class="stat-card">
+        <p class="stat-label">inProgress</p>
+        <p class="stat-value">{{.Stats.InProgress}}</p>
+      </article>
+    </section>
+
+    <section class="calendar-card">
+      <p>Sync interviews to your calendar:</p>
+      <code>/calendar.ics</code>
+    </section>
+
+    <section class="table-card" aria-label="Applications">
+      <table>
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>Role</th>
+            <th>Date Range</th>
+            <th>Location</th>
+            <th>Pay Range</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{range .Apps}}
+            <tr class="clickable-row" data-href="/app/{{.ID}}">
+              <td><a class="company-link" href="/app/{{.ID}}">{{.Company}}</a></td>
+              <td>{{.Role}}</td>
+              <td>{{dateRange .InternStartDate .InternEndDate}}</td>
+              <td class="muted">{{fallback .Location "Remote"}}</td>
+              <td class="mono {{payClass .PayMin .PayMax}}">{{payText .PayMin .PayMax}}</td>
+              <td class="status {{statusClass .LatestStatus}}">{{fallback .LatestStatus "Unknown"}}</td>
+            </tr>
+          {{else}}
+            <tr>
+              <td colspan="6" class="empty-state">No applications yet. Add one to start tracking.</td>
+            </tr>
+          {{end}}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>
+{{end}}

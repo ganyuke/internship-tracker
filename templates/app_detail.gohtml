@@ -1,0 +1,124 @@
+{{define "app_detail"}}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{.App.Company}} · Internship Tracker</title>
+  <link rel="icon" href="/static/favicon.svg">
+  <link rel="stylesheet" href="/static/styles.css">
+  <script defer src="/static/app.js"></script>
+</head>
+<body>
+  <main class="page wide detail-grid">
+    <section class="stack-md detail-main">
+      <div class="topbar compact">
+        <a class="back-link" href="/">← Back to Dashboard</a>
+        <form method="post" action="/app/{{.App.ID}}/delete" data-confirm="Are you sure you want to delete this application?">
+          <button class="button danger-soft" type="submit">Delete App</button>
+        </form>
+      </div>
+
+      <form method="post" action="/app/{{.App.ID}}/update" class="form-card stack-sm">
+        <h1>Edit Details</h1>
+        <div class="grid two">
+          <label>
+            <span>Company</span>
+            <input name="company" required value="{{.App.Company}}">
+          </label>
+          <label>
+            <span>Role</span>
+            <input name="role" required value="{{.App.Role}}">
+          </label>
+        </div>
+
+        <label>
+          <span>Link</span>
+          <input name="link" value="{{.App.Link}}">
+        </label>
+
+        <div class="grid two uneven">
+          <div class="grid two tight">
+            <label>
+              <span>Min Pay</span>
+              <input type="number" step="0.01" name="payMin" value="{{if .App.PayMin}}{{formatDollars .App.PayMin}}{{end}}">
+            </label>
+            <label>
+              <span>Max Pay</span>
+              <input type="number" step="0.01" name="payMax" value="{{if .App.PayMax}}{{formatDollars .App.PayMax}}{{end}}">
+            </label>
+          </div>
+          <label>
+            <span>Location</span>
+            <input name="location" value="{{.App.Location}}">
+          </label>
+        </div>
+
+        <div class="grid four">
+          <label>
+            <span>Application Opens</span>
+            <input type="date" name="appOpenDate" value="{{.App.AppOpenDate}}">
+          </label>
+          <label>
+            <span>Application Closes</span>
+            <input type="date" name="appCloseDate" value="{{.App.AppCloseDate}}">
+          </label>
+          <label>
+            <span>Start Date</span>
+            <input type="date" name="internStartDate" value="{{.App.InternStartDate}}">
+          </label>
+          <label>
+            <span>End Date</span>
+            <input type="date" name="internEndDate" value="{{.App.InternEndDate}}">
+          </label>
+        </div>
+
+        <label>
+          <span>Notes</span>
+          <textarea name="notes" rows="4">{{.App.Notes}}</textarea>
+        </label>
+
+        <button class="button dark fit" type="submit">Save Changes</button>
+      </form>
+    </section>
+
+    <aside class="stack-md">
+      <section class="form-card stack-sm">
+        <h2>Add Status Update</h2>
+        <form method="post" action="/app/{{.App.ID}}/event" class="stack-sm">
+          <select name="eventType" required>
+            {{range .EventTypes}}
+              <option value="{{.}}">{{.}}</option>
+            {{end}}
+          </select>
+          <input type="date" name="eventDate" value="{{.Today}}" required>
+          <input type="text" name="details" placeholder="Additional details (e.g. 'with recruiter Sarah')">
+          <button class="button primary full" type="submit">Update Status</button>
+        </form>
+      </section>
+
+      <section class="timeline-section">
+        <h2>Timeline</h2>
+        <div class="timeline">
+          {{range .Events}}
+            <article class="timeline-item">
+              <div>
+                <p class="timeline-date">{{.EventDate}}</p>
+                <p class="timeline-type">{{.EventType}}</p>
+                {{if .Details}}<p class="timeline-details">{{.Details}}</p>{{end}}
+              </div>
+              <form method="post" action="/app/{{$.App.ID}}/delete-event" data-confirm="Are you sure you want to delete this event?">
+                <input type="hidden" name="eventId" value="{{.ID}}">
+                <button class="icon-button" type="submit" title="Delete event" aria-label="Delete event">×</button>
+              </form>
+            </article>
+          {{else}}
+            <p class="muted">No events yet.</p>
+          {{end}}
+        </div>
+      </section>
+    </aside>
+  </main>
+</body>
+</html>
+{{end}}

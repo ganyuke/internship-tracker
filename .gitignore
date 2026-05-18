@@ -1,33 +1,20 @@
-# test data
+# Local data
 samples/
-
-# sqlite
 *.db
+*.sqlite
 
-# npm
-node_modules
+# Build output
+/internship-tracker
+/bin/
+/dist/
 
-# Output
-.output
-.vercel
-.netlify
-.wrangler
-/.svelte-kit
-/build
-
-# OS
-.DS_Store
-Thumbs.db
-
-# Env
+# Environment
 .env
 .env.*
 !.env.example
 !.env.test
 
-# Vite
-vite.config.js.timestamp-*
-vite.config.ts.timestamp-*
-
-# SQLite
-*.db
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
